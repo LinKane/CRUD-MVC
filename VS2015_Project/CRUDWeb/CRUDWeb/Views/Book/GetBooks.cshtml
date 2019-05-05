@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Book>
+@{
+    ViewBag.Title = "GetBooks";
+}
+
+<h2>All Books</h2>
+
+<div>
+    <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("CreateBook","Book")'" >新增書籍</button>
+</div>
+<div class="container">
+    <div class="row">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center col-md-2">書名</th>
+                    <th class="text-center col-md-2">作者</th>
+                    <th class="text-center col-md-2">出版商</th>
+                    <th class="text-center col-md-2">頁數</th>
+                    <th class="text-center col-md-2">價格</th>
+                    <th class="text-center col-md-2">動作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model?.Count() == 0)
+            {
+                    <tr>
+                        <td style="text-align:center" colspan="6">
+                            <font color="black">目前尚無任何資料</font>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Author</td>
+                            <td>@item.Publisher</td>
+                            <td>@item.Page</td>
+                            <td>@item.Price</td>
+                        <td>
+                            <button type="button" class="btn btn-default" id="editbtn" onclick="editbk('@Url.Action("Edit", "Book", new { Id = item.Id })')" >Edit</button>
+                            <button type="button" class="btn btn-default" id="deletebtn" onclick="deletebk('@Url.Action("Delete", "Book", new { Id = item.Id })')">Delete</button>
+                        </td>
+                    </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        function editbk(uri)
+        {
+            location.href = uri;
+        }
+
+        function deletebk(uri)
+        {
+            if(confirm("Are you sure to delete book?"))
+            {
+                location.href = uri;
+            }         
+        }
+    </script>
+}
