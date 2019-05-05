@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using CRUDWeb.Models;
 using CRUDWeb.DAL;
+using System.Net;
 
 namespace CRUDWeb.Controllers
 {
@@ -28,6 +29,23 @@ namespace CRUDWeb.Controllers
             List<Book> books = new List<Book>();
             books.Add(b);
             return View(books);
+        }
+
+        public ActionResult CreateBook()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateBook(Book book)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return View();
+            }
+            book.Id = Guid.NewGuid();
+            book.Created = DateTime.Now;
+            return RedirectToAction("GetBooks");
         }
     }
 }
