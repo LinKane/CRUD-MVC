@@ -35,7 +35,7 @@
                     foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.Name</td>
+                            <td>@Html.ActionLink(item.Name,"Detail","Book",new { Id = item.Id },null)</td>
                             <td>@item.Author</td>
                             <td>@item.Publisher</td>
                             <td>@item.Page</td>

@@ -1,0 +1,50 @@
+﻿@model Book
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>Detail</h2>
+
+<div class="container">
+    <div class="row">
+            @Html.HiddenFor(m => m.Id)
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DisplayTextFor(m => m.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Author, new { @class = "col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DisplayTextFor(m => m.Author)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Publisher, new { @class = "col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DisplayTextFor(m => m.Publisher)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Page, new { @class = "col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DisplayTextFor(m => m.Page)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Price, new { @class = "col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DisplayTextFor(m => m.Price)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Description, new { @class = "col-md-2" })
+                    <div class="col-md-8">
+                        @Html.DisplayTextFor(m => m.Description)
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>

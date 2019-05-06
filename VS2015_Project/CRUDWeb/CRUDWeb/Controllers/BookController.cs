@@ -25,6 +25,12 @@ namespace CRUDWeb.Controllers
             return View();
         }
 
+        public ActionResult Detail(Guid? Id)
+        {
+            var book = db.Books.Where(p => p.Id == Id).FirstOrDefault();
+            return View(book);
+        }
+
         [HttpPost]
         public ActionResult CreateBook(Book book)
         {
