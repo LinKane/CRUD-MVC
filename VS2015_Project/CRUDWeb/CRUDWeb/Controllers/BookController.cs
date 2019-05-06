@@ -6,28 +6,17 @@ using System.Web.Mvc;
 using CRUDWeb.Models;
 using CRUDWeb.DAL;
 using System.Net;
+using System.Data.Entity;
 
 namespace CRUDWeb.Controllers
 {
     public class BookController : Controller
     {
+        private BSDBContext db = new BSDBContext();
         // GET: Book
         public ActionResult GetBooks()
         {
-            Book b = new Book()
-            {
-                Id = Guid.NewGuid(),
-                Author = "kane",
-                Name = "mvc",
-                Page = 10,
-                Price = 100.0,
-                Publisher = "abc",
-                Created = DateTime.Now,
-                Description = "good book"
-            };
-
-            List<Book> books = new List<Book>();
-            books.Add(b);
+            var books = db.Books.ToList();
             return View(books);
         }
 
@@ -43,9 +32,63 @@ namespace CRUDWeb.Controllers
             {
                 return View();
             }
+
             book.Id = Guid.NewGuid();
             book.Created = DateTime.Now;
+            db.Books.Add(book);
+            db.SaveChanges();
+
             return RedirectToAction("GetBooks");
+        }
+
+        public ActionResult Edit(Guid? Id)
+        {
+            if(!Id.HasValue)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var book = db.Books.Where(p => p.Id == Id).FirstOrDefault();
+            return View(book);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Book book)
+        {
+            if(ModelState.IsValid == false)
+            {
+                return View();
+            }
+            db.Entry(book).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("GetBooks");
+        }
+
+        public ActionResult Delete(Guid? Id)
+        {
+            if (!Id.HasValue)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var book = db.Books.Where(p => p.Id == Id).FirstOrDefault();
+            return View(book);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(Guid Id)
+        {
+            var book = db.Books.Where(p => p.Id == Id).FirstOrDefault();
+            db.Books.Remove(book);
+            db.SaveChanges();
+            return RedirectToAction("GetBooks");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
         }
     }
 }
